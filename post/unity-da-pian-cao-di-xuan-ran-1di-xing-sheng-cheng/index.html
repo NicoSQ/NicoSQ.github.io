@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1594994971685">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1594998224719">
 <link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
 
 
@@ -30,7 +30,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://nicosq.github.io">
-        <img src="https://nicosq.github.io/images/avatar.png?v=1594994971685" class="site-logo">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1594998224719" class="site-logo">
         <h1 class="site-title">nicosq_Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -154,6 +154,7 @@ void Start()
     GenerateTerrain();
 }
 
+//生成地形网格数据
 void CreateVertsAndTris()
 {
     //遍历每一个顶点，并用列表 vertexs 和 triangles 存储
@@ -178,7 +179,7 @@ void CreateVertsAndTris()
     }
 }
 
-//生成地形网格数据
+//生成地形
 void GenerateTerrain()
 {
     CreateVertsAndTris();
@@ -281,6 +282,7 @@ void Start()
     GenerateTerrain();
 }
 
+//生成地形网格数据
 void CreateVertsAndTris()
 {
     //遍历每一个顶点，并用列表 vertexs 和 triangles 存储
@@ -317,7 +319,7 @@ float GeneratePerlinNoise(int i, int j)
     return Mathf.PerlinNoise(xCoord, zCoord);
 }
 
-//生成地形网格数据
+//生成地形
 void GenerateTerrain()
 {
     CreateVertsAndTris();
@@ -398,6 +400,7 @@ void Start()
     GenerateTerrain();
 }
 
+//生成地形网格数据
 void CreateVertsAndTris()
 {
     //遍历每一个顶点，并用列表 vertexs 和 triangles 存储
@@ -434,7 +437,7 @@ float GeneratePerlinNoise(int i, int j)
     return Mathf.PerlinNoise(xCoord, zCoord);
 }
 
-//生成地形网格数据
+//生成地形
 void GenerateTerrain()
 {
     CreateVertsAndTris();

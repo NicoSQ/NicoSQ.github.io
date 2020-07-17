@@ -1,22 +1,113 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://nicosq.github.io</id>
-    <title>nicosq_Blog</title>
-    <updated>2020-07-17T14:07:24.690Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://nicosq.github.io"/>
-    <link rel="self" href="https://nicosq.github.io/atom.xml"/>
-    <subtitle>分享我的所学</subtitle>
-    <logo>https://nicosq.github.io/images/avatar.png</logo>
-    <icon>https://nicosq.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, nicosq_Blog</rights>
-    <entry>
-        <title type="html"><![CDATA[Unity大片草地渲染1（地形生成）]]></title>
-        <id>https://nicosq.github.io/post/unity-da-pian-cao-di-xuan-ran-1di-xing-sheng-cheng/</id>
-        <link href="https://nicosq.github.io/post/unity-da-pian-cao-di-xuan-ran-1di-xing-sheng-cheng/">
-        </link>
-        <updated>2020-07-17T07:53:44.000Z</updated>
-        <content type="html"><![CDATA[<hr>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Unity大片草地渲染1（地形生成） | nicosq_Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1594994838974">
+<link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+前言
+之前有个项目需要用到草地的渲染，很久之前就一直对Unity里面草地的渲染很感兴趣，但一直没有深入的了解。借着项目的缘由，我上网搜集并学习了很多关于Unity里面如何实现草地渲染的案例，期间也学习和整理了很多相关的知识。虽然最终没有完..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://nicosq.github.io">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1594994838974" class="site-logo">
+        <h1 class="site-title">nicosq_Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/NicoSQ" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://twitter.com/sq_nico" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      分享我的所学
+    </div>
+    <div class="site-footer">
+      Developer Gamer OORer Mader  | <a class="rss" href="https://nicosq.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Unity大片草地渲染1（地形生成）</h2>
+            <div class="post-date">2020-07-17</div>
+            
+              <div class="feature-container" style="background-image: url('https://nicosq.github.io/post-images/unity-da-pian-cao-di-xuan-ran-1di-xing-sheng-cheng.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <hr>
 <h2 id="前言">前言</h2>
 <p>之前有个项目需要用到草地的渲染，很久之前就一直对Unity里面草地的渲染很感兴趣，但一直没有深入的了解。借着项目的缘由，我上网搜集并学习了很多关于Unity里面如何实现草地渲染的案例，期间也学习和整理了很多相关的知识。虽然最终没有完成全部目标，可以优化的地方也还有很多，但总归还是搭建了一个可以使用的雏形，我个人对最后的效果也还算比较满意。（下面是最终的效果图）</p>
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gguba77j8rj30o00dhal8.jpg" alt="1_1.png" style="zoom:80%;" />
@@ -412,6 +503,42 @@ void GenerateTerrain()
 <p><a href="https://gamedevacademy.org/complete-guide-to-procedural-level-generation-in-unity-part-1/">https://gamedevacademy.org/complete-guide-to-procedural-level-generation-in-unity-part-1/</a></p>
 </li>
 </ul>
-]]></content>
-    </entry>
-</feed>
+
+            </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

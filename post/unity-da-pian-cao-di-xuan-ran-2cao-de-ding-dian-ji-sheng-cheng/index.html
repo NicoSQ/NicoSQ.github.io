@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Unity大片草地渲染2（草的顶点集生成） | nicosq_Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595156454710">
+<link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+上篇文章中我们制作了高低起伏的地形，这篇文章我们来生成草的顶点集。
+
+
+思路图
+
+
+正文
+要想生成草的顶点集，首先要理解生成草的顶点集的原理是什么。顾名思义，草的顶点集就是我们要生成的每根草的顶点的集合（这个点确定了每根草在空间下的位..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://nicosq.github.io">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1595156454710" class="site-logo">
+        <h1 class="site-title">nicosq_Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/NicoSQ" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://twitter.com/sq_nico" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      分享我的所学
+    </div>
+    <div class="site-footer">
+      Developer Gamer OORer Mader  | <a class="rss" href="https://nicosq.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Unity大片草地渲染2（草的顶点集生成）</h2>
+            <div class="post-date">2020-07-19</div>
+            
+              <div class="feature-container" style="background-image: url('https://nicosq.github.io/post-images/unity-da-pian-cao-di-xuan-ran-2cao-de-ding-dian-ji-sheng-cheng.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="前言">前言</h2>
+<p>上篇文章中我们制作了高低起伏的地形，这篇文章我们来生成草的顶点集。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggwha6qbi4j30o10cewj3.jpg" alt="Unity大片草迪渲染（地形生成）封面图.png" style="zoom:80%;" />
+<hr>
+<h2 id="思路图">思路图</h2>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggwhblju4gj30yu09rjs1.jpg" alt="2_8.png" style="zoom: 67%;" />
+<hr>
+<h2 id="正文">正文</h2>
+<p>要想生成草的顶点集，首先要理解生成草的顶点集的原理是什么。<strong>顾名思义，草的顶点集就是我们要生成的每根草的顶点的集合（这个点确定了每根草在空间下的位置）</strong>，之后再利用我们的几何着色器（Geometry Shader）来进行草的生成（<strong>下一章讲解</strong>）。</p>
+<blockquote>
+<p>注意：我们的草需要添加材质，也就是我们后面由Geometry Shader生成的材质球。所以，<strong>我们需要创建一个新的网格（Mesh）来承载我们所有草的顶点集合</strong>。</p>
+</blockquote>
+<p>先上代码，代码承接上篇文章，有些许改动，<strong>这里只添加新的部分</strong>。</p>
+<pre><code class="language-cs">    #Procedural Grass
+    ......
+        
+    #region Grass Data
+    [Range(0, 100)]
+    public int grassRowCount = 50;          //草根集,定义草的广度
+    [Range(1, 1000)]
+    public int grassCountPerPatch = 100;          //定义每一堆 草根集 的草密度
+    public Material grassMat;           //草的材质
+	public Mesh grassMesh;          //草的网格
+    List&lt;Vector3&gt; grassVerts = new List&lt;Vector3&gt;();          //存储草的顶点
+    #endregion
+
+    void Start()
+    {
+		......
+            
+        GenerateGrassArea(grassRowCount, grassCountPerPatch);
+    }
+
+	......
+
+    //生成地形
+    void GenerateTerrain()
+    {
+		......
+            
+        //清空grassVerts的数据    
+        grassVerts.Clear();
+    }
+
+    //生成草的网格数据
+    void GenerateGrassArea(int rowCount, int perPatchSize)
+    {
+        //最大顶点数为 65000
+        List&lt;int&gt; indices = new List&lt;int&gt;();
+        for (int i = 0; i &lt; 65000; i++)
+        {
+            indices.Add(i);
+        }
+
+        //初始位置
+        Vector3 currentPos = transform.position;
+        //草根集 每一次循环偏移的距离
+        Vector3 patchSize = new Vector3(terrainSize / rowCount, 0, terrainSize / rowCount);
+
+        //每一堆 草根集 进行循环
+        for (int i = 0; i &lt; rowCount; i++)
+        {
+            for (int j = 0; j &lt; rowCount; j++)
+            {
+                GenerateGrass(currentPos, patchSize, grassCountPerPatch);
+                currentPos.x += patchSize.x;
+            }
+            currentPos.x = transform.position.x;
+            currentPos.z += patchSize.z;
+        }
+
+        //生成 GrassLayerGruop 来成为父级管理物理
+        GameObject grassLayerGroup1 = new GameObject(&quot;GrassLayerGroup1&quot;);
+        //生成 GrassLayer 物体来存储草数据
+        GameObject grassLayer;
+        MeshFilter grassMeshFilter;
+        //Mesh grassMesh;
+        MeshRenderer grassMeshRenderer;
+        int a = 0;
+
+        //当 grassVerts.Count 的数量即草的全部顶点数超过 65000 个时
+        //创立多个网格处理
+        while (grassVerts.Count &gt; 65000)
+        {
+            grassMesh = new Mesh();
+            grassMesh.vertices = grassVerts.GetRange(0, 65000).ToArray();
+
+            //设置子网格的索引缓冲区,相关官方文档：https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html
+            //每一个创建的网格的顶点数目不会超过 65000 个
+            grassMesh.SetIndices(indices.ToArray(), MeshTopology.Points, 0);
+
+            //创建一个新的 GameObject 来承载这些点
+            grassLayer = new GameObject(&quot;GrassLayer &quot; + a++);
+            grassLayer.transform.SetParent(grassLayerGroup1.transform);
+            grassMeshFilter = grassLayer.AddComponent&lt;MeshFilter&gt;();
+            grassMeshRenderer = grassLayer.AddComponent&lt;MeshRenderer&gt;();
+            //关闭草地的阴影投射和接受
+            grassMeshRenderer.receiveShadows = false;
+            grassMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            grassMeshRenderer.sharedMaterial = grassMat;
+            grassMeshFilter.mesh = grassMesh;
+            //移除前 65000 个顶点
+            grassVerts.RemoveRange(0, 65000);
+        }
+
+        //当 grassVerts.Count 的数量即草的全部顶点数没有超过 65000 个时
+        grassLayer = new GameObject(&quot;GrassLayer&quot; + a);
+        grassLayer.transform.SetParent(grassLayerGroup1.transform);
+        grassMeshFilter = grassLayer.AddComponent&lt;MeshFilter&gt;();
+        grassMeshRenderer = grassLayer.AddComponent&lt;MeshRenderer&gt;();
+        //关闭草地的阴影投射和接受
+        grassMeshRenderer.receiveShadows = false;
+        grassMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        grassMesh = new Mesh();
+        grassMesh.vertices = grassVerts.ToArray();
+        //设立子网格数据
+        grassMesh.SetIndices(indices.GetRange(0, grassVerts.Count).ToArray(), MeshTopology.Points, 0);
+        
+        grassMeshFilter.mesh = grassMesh;
+        grassMeshRenderer.sharedMaterial = grassMat;
+    }
+
+    //生成草
+    void GenerateGrass(Vector3 vertPos, Vector3 patchSize, int grassCountPerPatch)
+    {
+        //每一堆 草根集 里的草进行循环
+        for (int i = 0; i &lt; grassCountPerPatch; i++)
+        {
+            //Random.value 返回 0~1 之间的随机值
+            //得到在两个 草根集 之间的草的随机位置并用索引值
+            float randomX = Random.value * patchSize.x;
+            float randomZ = Random.value * patchSize.z;
+
+            int indexX = (int)((vertPos.x - transform.position.x) + randomX);
+            int indexZ = (int)((vertPos.z - transform.position.z) + randomZ);
+
+            //防止草种出地形
+            if (indexX &gt;= terrainSize)
+            {
+                indexX = (int)terrainSize - 1;
+            }
+
+            if (indexZ &gt;= terrainSize)
+            {
+                indexZ = (int)terrainSize - 1;
+            }
+
+            //添加每一个草的顶点位置到 grassVert 列表里
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+        }
+    }
+</code></pre>
+<p>大部分代码都有结合注释。需要理解的是两个变量 <em>grassRowCount</em> 和 <em>grassCountPerPatch</em> 。其中，<strong><em>grassRowCount</em> 定义了在地形之中每一排，每一列有多少堆草，由 <em>grassRowCount</em> 得到的参数 <em>patchSize</em> 定义了每一堆草的广度；而 <em>grassCountPerPatch</em> 则是定义了每一堆草的密度。这三个参数变量可以控制我们整体草的范围和密度</strong>。我们创建了一个列表 <em>grassVerts</em> 存储全部草的顶点，并把这些顶点数据全部传给新创建的网格 <em>grassMesh</em> 中。（<em>grassRowCount</em> 和 <em>grassCountPerPatch</em> 参数可以结合下面的图片来理解）</p>
+<blockquote>
+<p>TerrainSize = TS</p>
+<p>rowCount = 5</p>
+<p>PatchSize = PS</p>
+<p>grassCountPerPatch = GC （每一堆草的密度）</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gguwz70zg6j30ky0h93z3.jpg" alt="2_1.png" style="zoom:80%;" />
+</blockquote>
+<p>这里可以再具体看一下 <em>GenerateGrass</em> 函数内部。</p>
+<pre><code class="language-cs">		//每一堆 草根集 里的草进行循环
+        for (int i = 0; i &lt; grassCountPerPatch; i++)
+        {
+            //Random.value 返回 0~1 之间的随机值
+            //得到在两个 草根集 之间的草的随机位置并用索引值
+            float randomX = Random.value * patchSize.x;
+            float randomZ = Random.value * patchSize.z;
+
+            int indexX = (int)((vertPos.x - transform.position.x) + randomX);
+            int indexZ = (int)((vertPos.z - transform.position.z) + randomZ);
+
+            //防止草种出地形
+            if (indexX &gt;= terrainSize)
+            {
+                indexX = (int)terrainSize - 1;
+            }
+
+            if (indexZ &gt;= terrainSize)
+            {
+                indexZ = (int)terrainSize - 1;
+            }
+
+            //添加每一个草的顶点位置到 grassVert 列表里
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+        }
+</code></pre>
+<p>其中前半段是利用 <em>Random.value</em> 得到两个草堆之间每个草的随机位置，同时为了防止草种出草地需要进行相应的约束。<strong>注意最后一句：</strong></p>
+<pre><code class="language-cs">			//添加每一个草的顶点位置到 grassVert 列表里
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+</code></pre>
+<p>还记得我们前面创建的 <em>grassVerts</em> 列表吗？这个列表存储的是 <em>Vector3</em> 类型（即每根草的位置）。<strong>为了与地形契合，我们需要借助前面生成地形时使用的 <em>perlinNoise</em> 数组，这个数组存储地形每个网格顶点的高度值，我们用 <em>indexX</em> 和 <em>indexZ</em> 两个参数作为索引，得到每根草对应的高度值</strong>。</p>
+<p>得到下面的效果图，大片紫色是因为还没有赋予草材质，可以看到已经生成的大量的草的顶点。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gguxk3cj1hj30q30dvgwp.jpg" alt="2_2.png" style="zoom:80%;" />
+<p>在上面的代码中，我们还在 <em>GenerateGrassArea</em> 函数中看到这样的一段代码：</p>
+<pre><code class="language-cs">	//生成草的网格数据
+    void GenerateGrassArea(int rowCount, int perPatchSize)
+    {
+        //最大顶点数为 65000
+        List&lt;int&gt; indices = new List&lt;int&gt;();
+        for (int i = 0; i &lt; 65000; i++)
+        {
+            indices.Add(i);
+        }
+
+        ......
+
+        //当 grassVerts.Count 的数量即草的全部顶点数超过 65000 个时
+        //创立多个网格处理
+        while (grassVerts.Count &gt; 65000)
+        {
+            grassMesh = new Mesh();
+            grassMesh.vertices = grassVerts.GetRange(0, 65000).ToArray();
+
+            //设置子网格的索引缓冲区,相关官方文档：https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html
+            //每一个创建的网格的顶点数目不会超过 65000 个
+            grassMesh.SetIndices(indices.ToArray(), MeshTopology.Points, 0);
+
+            ......
+                
+            //移除前 65000 个顶点
+            grassVerts.RemoveRange(0, 65000);
+        }
+
+        //当 grassVerts.Count 的数量即草的全部顶点数没有超过 65000 个时
+		
+        ......
+            
+        //设立子网格数据
+        grassMesh.SetIndices(indices.GetRange(0, grassVerts.Count).ToArray(), MeshTopology.Points, 0);
+        
+		......
+    }                   
+</code></pre>
+<p>这一段代码是什么意思呢？这里需要先引入两个新的概念：</p>
+<blockquote>
+<ul>
+<li><strong>网格拓补（MeshTopology）</strong></li>
+<li><strong>子网格（SubMesh）</strong></li>
+</ul>
+</blockquote>
+<p>在上一章中，我们讲到了构成网格（Mesh）的三角形结构。在Unity的官方文档关于**网格拓补（<em>MeshTopology</em>）**中有这样一段的解释：</p>
+<blockquote>
+<p><strong>通常，网格由三角形组成（每个面三个顶点索引），但是在某些情况下，您可能希望渲染由线或点组成的复杂事物。创建具有该拓扑的网格并使用它进行渲染通常是最有效的方法</strong>。</p>
+</blockquote>
+<p>是的，在本次项目中，我们在生成草的网格时，我们需要存储的仅仅是每根草的顶点而已，即我们生成的是一个<strong>由点组成的网格</strong>。而如何生成一个这样的网格Unity也说明了方法，就是用我们上面用到的 <strong>grass.SetIndices</strong> 方法。（下面是该方法的参数表格）</p>
+<figure data-type="image" tabindex="1"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggv5syxrz9j30zs08975o.jpg" alt="2_3.png" loading="lazy"></figure>
+<p>那什么是<strong>子网格（<em>SubMesh</em>）<strong>呢？在Unity中，我们往往会看到</strong>一个MeshRender（网格渲染器）可以有多个材质。这主要用于渲染具有多个独立三角形集的网格，称为子网格</strong>。</p>
+<blockquote>
+<p><strong>子网格属于网格的一部分，子网格所有的顶点数据都来自对应的网格。实际上子网格记录的是一串索引的数组，该数组可以取得对应的网格的网格信息，所有的子网格合在一起就可以渲染出完整的一个网格</strong>。</p>
+</blockquote>
+<p>那么子网格有什么用处呢？<strong>通常，我们导入进Unity的模型都会带有2~3甚至以上的材质，因为不用的材质对应模型不同的部位（在三维软件里可以区分网格），当我们将模型导出的时候，为了进行区分，每一个材质对应的顶点部分的所对应的网格组成一个子网格，即一种材质对应一个子网格。当然，如果一个模型只有一个材质，那么导出的子网格自然只有一个。</strong></p>
+<p>了解完相应的概念后，我们来看回我们的代码。</p>
+<p>我们在使用 <strong>SetIndices</strong> 方法创建子网格时要注意，我们需要一个索引列表来对网格的顶点数据进行索引，同时Unity里面规定，<strong>每一个子网格索引的顶点数目最多不能超过 65535 个。所以我们创建了一个容量为 65000 的列表 <em>Indices</em> 来进行索引，并将子网格分为两种，一种是顶点数目大于 65000 的，另一种是顶点数目小于 65000 的</strong>。</p>
+<pre><code class="language-cs">		//最大顶点数为 65000
+        List&lt;int&gt; indices = new List&lt;int&gt;();
+        for (int i = 0; i &lt; 65000; i++)
+        {
+            indices.Add(i);
+        }
+</code></pre>
+<p><strong>每一次索引都从 <em>grassVerts</em> 列表里面索引前 65000 个顶点组成一个单独的子网格，并在组成下一个子网格前移除 <em>grassVerts</em> 列表的前 65000 个顶点数据，并索引下一组数量为 65000 的顶点数据。当 <em>grassVerts</em> 列表的顶点数目不足 65000 时，便直接利用剩余的顶点组成子网格</strong>。</p>
+<pre><code class="language-cs">		//当 grassVerts.Count 的数量即草的全部顶点数超过 65000 个时
+        //创立多个网格处理
+        while (grassVerts.Count &gt; 65000)
+        {
+            grassMesh = new Mesh();
+            grassMesh.vertices = grassVerts.GetRange(0, 65000).ToArray();
+
+            //设置子网格的索引缓冲区,相关官方文档：https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html
+            //每一个创建的网格的顶点数目不会超过 65000 个
+            grassMesh.SetIndices(indices.ToArray(), MeshTopology.Points, 0);
+            ......       
+            //移除前 65000 个顶点
+            grassVerts.RemoveRange(0, 65000);
+        }
+
+        //当 grassVerts.Count 的数量即草的全部顶点数没有超过 65000 个时	
+        ......      
+        //设立子网格数据
+        grassMesh.SetIndices(indices.GetRange(0, grassVerts.Count).ToArray(), MeshTopology.Points, 0);
+</code></pre>
+<p>最后共生成三个顶点数量为 65000 和一个顶点数量为 55000 的网格。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggv7hbwbftj30db0bpjs2.jpg" alt="2_4.png" style="zoom:80%;" />
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggv7hlxb6uj30dd0bnjrv.jpg" alt="2_5.png" style="zoom:80%;" />
+<p>我们现在成功的生成了草的顶点集，并准备好下一步编写草的着色器了。</p>
+<hr>
+<h2 id="待优化">待优化</h2>
+<p>文章中可以继续优化的地方还有很多，苦于本人水平有限，在经过多次查阅资料和尝试后依然没有成功，便先将问题和思路记录在此。</p>
+<p>第一个是<strong>草的光照问题</strong>（<strong>草的法线设置</strong>）。这个问题是在后面的步骤中遇到的，无论怎么样都无法达到理想的光照效果。在网上查阅资料时看到了一个很不错的思路，就是<strong>利用地形网格生成的法线来代替草的法线传入shader，这样既解决了光照的问题，又可以让草的光影效果和生成的地形一致</strong>。当然也可以直接在着色器里面生成草的法线。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggwgyickw4j30ng08oqg0.jpg" alt="2_6.png" style="zoom:80%;" />
+<ul>
+<li>
+<p><strong>还原《塞尔达》的草地</strong></p>
+</li>
+<li>
+<p>http://walkingfat.com/%E8%BF%98%E5%8E%9F%E3%80%8A%E5%A1%9E%E5%B0%94%E8%BE%BE%E3%80%8B%E7%9A%84%E8%8D%89%E5%9C%B0/</p>
+</li>
+</ul>
+<p>第二个是<strong>草的优化问题</strong>。草的渲染中最容易想到的一个难题就是优化问题，特别是大片的草地渲染。在后期测试的时候，当草的数量上去的时候，<strong>需要处理的顶点数目过多，渲染的 <em>Drawcall</em> 过多导致画面十分的卡顿</strong>，无法正常运行。同时因为需要用到顶点动画来模拟风的运动，无法用Unity自带的批处理的方法来减少 <em>Drawcall</em>。在网上查阅到可以利用的一种很普遍的使用方法<strong>是使用Unity 提供的 GPU Instance 方式，使用 Graphics.DrawMeshInstanced 接口传入模型，材质，位置等信息，然后由GPU批量渲染</strong>。这种方法可以大大减少渲染的 <em>Drawcall</em> ，适用于大批渲染相同物体，网上同样也有很多的案例可以参考。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggwh40r8caj30o60f614j.jpg" alt="2_7.png" style="zoom:80%;" />
+<ul>
+<li>
+<p><strong>Unity利用 GPUinstancing 实现大面积草地</strong></p>
+</li>
+<li>
+<p>https://blog.csdn.net/qq_33967521/article/details/85139348</p>
+</li>
+</ul>
+<hr>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li>
+<p>【Unity Shader】使用Geometry Shader进行大片草地的实时渲染</p>
+<p>https://blog.csdn.net/weixin_44422550/article/details/105105351</p>
+</li>
+<li>
+<p>Unity 官方文档（Mesh.SetIndices）</p>
+<p>https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html</p>
+</li>
+<li>
+<p>Unity 官方文档（MeshTopology）</p>
+<p>https://docs.unity3d.com/ScriptReference/MeshTopology.html</p>
+</li>
+<li>
+<p>C# (CSharp) UnityEngine Mesh.SetIndices 示例</p>
+<p>https://csharp.hotexamples.com/zh/examples/UnityEngine/Mesh/SetIndices/php-mesh-setindices-method-examples.html</p>
+</li>
+<li>
+<p>Unity中Mesh和subMesh的区别</p>
+<p>https://blog.csdn.net/alexhu2010q/article/details/104935985</p>
+</li>
+<li>
+<p>Unity网格编程篇(二) 非常详细的Mesh编程入门文章</p>
+<p>https://blog.csdn.net/qq_29579137/article/details/77369734</p>
+</li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://nicosq.github.io/post/unity-da-pian-cao-di-xuan-ran-1di-xing-sheng-cheng/">
+                  <h3 class="post-title">
+                    Unity大片草地渲染1（地形生成）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

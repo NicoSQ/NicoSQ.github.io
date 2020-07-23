@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595166149976">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595512704885">
 <link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://nicosq.github.io">
-        <img src="https://nicosq.github.io/images/avatar.png?v=1595166149976" class="site-logo">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1595512704885" class="site-logo">
         <h1 class="site-title">nicosq_Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -401,8 +401,8 @@
 <p>我们现在成功的生成了草的顶点集，并准备好下一步编写草的着色器了。</p>
 <hr>
 <h2 id="待优化">待优化</h2>
-<p>文章中可以继续优化的地方还有很多，苦于本人水平有限，在经过多次查阅资料和尝试后依然没有成功，便先将问题和思路记录在此。</p>
-<p>第一个是<strong>草的光照问题</strong>（<strong>草的法线设置</strong>）。这个问题是在后面的步骤中遇到的，无论怎么样都无法达到理想的光照效果。在网上查阅资料时看到了一个很不错的思路，就是<strong>利用地形网格生成的法线来代替草的法线传入shader，这样既解决了光照的问题，又可以让草的光影效果和生成的地形一致</strong>。当然也可以直接在着色器里面生成草的法线。</p>
+<p>文章中可以继续优化的地方还有很多。</p>
+<p>第一个是<strong>草的光照问题</strong>（<strong>草的法线设置</strong>）。这个问题是在后面的步骤中遇到的，无论怎么样都无法达到理想的光照效果。在网上查阅资料时看到了一个很不错的思路，就是<strong>利用地形网格生成的法线来代替草的法线传入shader，这样既解决了光照的问题，又可以让草的光影效果和生成的地形一致</strong>。当然也可以直接在着色器里面生成草的法线。<strong>我们会在后面的文章中介绍到。</strong></p>
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1ggwgyickw4j30ng08oqg0.jpg" alt="2_6.png" style="zoom:80%;" />
 <ul>
 <li>

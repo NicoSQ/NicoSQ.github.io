@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595514432140">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595603423581">
 <link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
 
 
@@ -29,7 +29,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://nicosq.github.io">
-        <img src="https://nicosq.github.io/images/avatar.png?v=1595514432140" class="site-logo">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1595603423581" class="site-logo">
         <h1 class="site-title">nicosq_Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -210,7 +210,7 @@
             ......
                 
             //添加每一个草的顶点位置到 grassVert 列表里
-            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, vertPos.z + randomZ));
             //添加每一个草的顶点法线到 grassNormalList 列表里
             grassNormalList.Add(terrainNormals2D[indexX, indexZ]);
         }
@@ -734,7 +734,7 @@ triangle v2g points[3]
 					
 					//对顶点 XZ 轴进行偏移
 					float2 randomDir = float2(sin((random * 15)), sin((random * 10)));
-					float2 forward = (sin((root.x * 10 + root.z / 5) * random)* verticalEff + randomDir * 								sin((random * 15)))* verticalEff;
+					float2 forward = (sin((root.x * 10 + root.z / 5) * random)* verticalEff + randomDir * sin((random * 15)))* verticalEff;
 					pos.xz += forward * _BladeForward;
 					if (fmod(i, 2) == 1) {
 						verticalEff += offsetV;
@@ -832,19 +832,19 @@ triangle v2g points[3]
 <ul>
 <li>
 <p>Unity GeometryShader(从一个线框渲染的例子开始)</p>
-<p>https://www.cnblogs.com/Esfog/p/UnityGeometryShader_WireFrame.html</p>
+<p><a href="https://www.cnblogs.com/Esfog/p/UnityGeometryShader_WireFrame.html">https://www.cnblogs.com/Esfog/p/UnityGeometryShader_WireFrame.html</a></p>
 </li>
 <li>
 <p>Grass Shader</p>
-<p>https://roystan.net/articles/grass-shader.html</p>
+<p><a href="https://roystan.net/articles/grass-shader.html">https://roystan.net/articles/grass-shader.html</a></p>
 </li>
 <li>
 <p>My take on shaders: Geometry Shaders</p>
-<p>https://halisavakis.com/my-take-on-shaders-geometry-shaders/</p>
+<p><a href="https://halisavakis.com/my-take-on-shaders-geometry-shaders/">https://halisavakis.com/my-take-on-shaders-geometry-shaders/</a></p>
 </li>
 <li>
 <p>My take on shaders: Grass Shader (Part II)</p>
-<p>https://halisavakis.com/my-take-on-shaders-grass-shader-part-ii/</p>
+<p><a href="https://halisavakis.com/my-take-on-shaders-grass-shader-part-ii/">https://halisavakis.com/my-take-on-shaders-grass-shader-part-ii/</a></p>
 </li>
 </ul>
 

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Unity大片草地渲染4（草的交互） | nicosq_Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595603423581">
+<link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+上篇文章中我们讲完了草的着色器，已经成功生成了草。但是我们的场景还是略显单调，所以最后为我们的草加上交互效果。
+
+
+思路图
+
+
+正文
+首先先来看第一个效果——风的交互。
+风的交互有很多种实现的方法，本质上就是对草的顶点进行偏移。比如可..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://nicosq.github.io">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1595603423581" class="site-logo">
+        <h1 class="site-title">nicosq_Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/NicoSQ" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://twitter.com/sq_nico" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      分享我的所学
+    </div>
+    <div class="site-footer">
+      Developer Gamer OORer Mader  | <a class="rss" href="https://nicosq.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Unity大片草地渲染4（草的交互）</h2>
+            <div class="post-date">2020-07-24</div>
+            
+              <div class="feature-container" style="background-image: url('https://nicosq.github.io/post-images/unity-da-pian-cao-di-xuan-ran-4cao-de-jiao-hu.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="前言">前言</h2>
+<p>上篇文章中我们讲完了草的着色器，已经成功生成了草。但是我们的场景还是略显单调，所以最后为我们的草加上交互效果。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh13on89svj30ok0dr7fa.jpg" alt="4_1.gif" style="zoom:80%;" />
+<hr>
+<h2 id="思路图">思路图</h2>
+<figure data-type="image" tabindex="1"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh2feyj3wrj30nl05lgly.jpg" alt="4_10.png" loading="lazy"></figure>
+<hr>
+<h2 id="正文">正文</h2>
+<p>首先先来看第一个效果——风的交互。</p>
+<p>风的交互有很多种实现的方法，<strong>本质上就是对草的顶点进行偏移</strong>。比如可以使用简单的 sin 函数或者 cos 函数对顶点进行偏移，同时要注意的一点是<strong>草的根部是固定不动的</strong>，这一点可以利用草的 UV 的 Y 坐标来进行控制。这里就不贴代码了，实现的方法很简单，我们直接来看一下效果。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh1xrxs3wfg30l40ct7wh.gif" alt="4_1.gif" style="zoom:80%;" />
+<p>可以看到我们的草发生了摆动，但是这个摆动太过于规律了，当草的数量一增多效果就很平庸，当然可以利用数学知识制作更加复杂的效果，但这个并不是本次要提到的重点，下面来介绍一下我这里使用的方法。</p>
+<pre><code class="language-cs">Shader &quot;My Shaders/GrassShader&quot;
+{
+    Properties
+    {
+		......
+
+		_WindTex(&quot;WindTex&quot;, 2D) = &quot;white&quot; {}          //风的采样贴图
+		_WindVector(&quot;WindVector&quot;, Vector) = (1,1,1,0)          //控制风的方向
+		_WindTimeScale(&quot;WindTimeScale&quot;, float) = 1          //控制风的速度
+		_WindTexMapSize(&quot;WindTexMapSize&quot;, float) = 80          //控制风的采样贴图大小
+		_WindXZStrength(&quot;WindXZStrength&quot;, float) = 10          //控制风在草的XZ轴上的偏移
+		_WindYStrength(&quot;WindYStrength&quot;, float) = 10          //控制风在草的Y轴上的偏移          
+	}
+
+	SubShader
+	{
+		......
+
+		Pass
+		{
+			......
+
+			sampler2D _WindTex;
+			float4 _WindTex_ST;
+			half4 _WindVector;
+			half _WindTimeScale;
+			float _WindTexMapSize;
+			half _WindXZStrength;
+			half _WindYStrength;
+
+			......
+			
+			//几何着色器
+			[maxvertexcount(30)]
+			void geom(point v2g points[1], inout TriangleStream&lt;g2f&gt; triStream) {
+				
+				......
+
+				//进行生成全部草顶点的循环
+				for (int i = 0; i &lt; vertexCount; i++)
+				{
+					......
+                        
+					//对顶点 Y 轴进行旋转
+					pos = mul(lastTransformMatrix, mul(rotateMatrix, mul(firstTransformMatrix, pos)));
+
+					//--风
+					//将世界坐标下的风的方向转化为局部坐标
+					float4 localWindDir = normalize(mul(unity_WorldToObject, _WindVector));
+					//控制风速（实际上为采样 uv 的移动速度）
+					float time = (_Time.y)*(_WindTimeScale);
+					//对风贴图进行采样
+					half4 rootWorldPos = mul(unity_ObjectToWorld, root);
+					//windmutation 一直在 0~1 之间变化 
+					float windmutation = 1 - tex2Dlod(_WindTex, float4(rootWorldPos.x / _WindTexMapSize + time, rootWorldPos.z / _WindTexMapSize, 0, 0)).g;
+					//sin(time + windmutation * 10) * cos(time * 2 / 3 + 1 + windmutation * 10) -1~1
+					//localWindDir.xz 控制风的方向
+					//clamp(uv.y - 0.1, 0, 1) UV.y 范围在 0.1 以下的顶点不发生移动 
+					//xz 轴上的偏移
+					half2 xzOffset = sin(time + windmutation * 10) * cos(time * 2 / 3 + 1 + windmutation * 10) * localWindDir.xz * clamp(uv.y - 0.1, 0, 1);
+					pos.xz += xzOffset * _WindXZStrength;
+					//根据 XZ 轴上的偏移算出在 Y 轴上
+					//直角三角形定理
+					//Y轴的偏移
+					half yOffset = pos.y - sqrt(pos.y * pos.y - (xzOffset.x * xzOffset.x + xzOffset.y * xzOffset.y));
+					pos.y -= yOffset * _WindYStrength * clamp(uv.y - 0.35, 0, 1);
+
+					//pos.xz += sin(_Time.y * _WindTimeScale) * uv.y;
+
+					v[i] = GetVertex(pos, points[0].normal, uv);
+				}
+
+				//inout TriangleStream&lt;g2f&gt; triStream 输出三角形，即三个顶点数据
+				//将每三个顶点转化为三角形输出到片元着色器
+				for (int p = 0; p &lt; (vertexCount - 2); p++)
+				{
+					//triStream.Append(vertex); 该方法将输入的三个顶点自动构建成三角形
+					triStream.Append(v[p]);
+					triStream.Append(v[p + 2]);
+					triStream.Append(v[p + 1]);
+				}
+			}
+
+			......
+
+			ENDCG
+		}
+    }
+    
+	Fallback &quot;Diffuse&quot;
+}
+</code></pre>
+<p>在这里主要修改几何着色器里面的部分，可以看到在 <em>Properties</em> 里面我们创建了很多新的参数，大多数都标有注释。需要提到的就是<strong>我们定义了一个 <em>_WindTex</em> 来接受一张贴图，这张贴图可以帮我们模拟出一层一层风吹草地的效果</strong>，我们先看一下这张贴图。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh255vff0fj30or0or104.jpg" alt="4_2.png" style="zoom: 33%;" />
+<p>这张贴图有什么作用呢？我们结合几何着色器新增加的风的代码来看。首先我们将我们定义的风的方向 <em>_WindVector</em> 转为局部坐标下 ，注意看到下面这一段：</p>
+<pre><code class="language-cs">//控制风速（实际上为采样 uv 的移动速度）
+float time = (_Time.y)*(_WindTimeScale);
+//对风贴图进行采样
+half4 rootWorldPos = mul(unity_ObjectToWorld, root);
+//windmutation 一直在 0~1 之间变化 
+float windmutation = 1 - tex2Dlod(_WindTex, float4(rootWorldPos.x / _WindTexMapSize + time, rootWorldPos.z / _WindTexMapSize, 0, 0)).g;
+</code></pre>
+<p>这里看似很长，其实很好理解。<strong>原理就是利用草的世界空间下的坐标组成 UV 来对这张贴图进行采样，并且注意要加上 UV 的偏移。而 <em>_WindTexMapSize</em> 参数是为了控制贴图采样的大小</strong>。可以结合下面这张图理解。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh25hu0oo8j30qz0g0q4p.jpg" alt="4_3.png" style="zoom:50%;" />
+<p>我们计算出了采样结果 <em>windmutaition</em> 。然后下面这一段是对草的每个顶点进行偏移。</p>
+<pre><code class="language-cs">//localWindDir.xz 控制风的方向
+//clamp(v[i].uv.y - 0.1, 0, 1) UV.y 范围在 0.1 以下的顶点不发生移动 
+//xz 轴上的偏移
+half2 xzOffset = sin(time + windmutation * 10) * cos(time * 2/3 + 1 + windmutation * 10) * localWindDir.xz * clamp(uv.y - 0.1, 0, 1);
+pos.xz += xzOffset * _WindXZStrength;
+//根据 XZ 轴上的偏移算出在 Y 轴上
+//直角三角形定理
+//Y轴的偏移
+half yOffset = pos.y - sqrt(pos.y * pos.y - (xzOffset.x * xzOffset.x + xzOffset.y * xzOffset.y));
+pos.y -= yOffset * _WindYStrength * clamp(uv.y - 0.35, 0, 1);
+</code></pre>
+<p><strong>我们利用 sin 函数的变化来控制顶点 XZ 方向上的偏移，利用 <em>localWindDir</em> 参数来控制风的方向。在控制 Y 轴的偏移上，我们利用直角三角形的勾股定理，通过 XZ 轴上的偏移大致计算出每根顶点在 Y 轴上的偏移。最后要注意通过草的在竖直上的 UV 值（clamp函数）来控制偏移程度（草的根部不动）</strong>。计算很简单，可以结合这张图来理解。<strong>（△y 是要计算的部分）</strong></p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh2636zkqxj30p80hldgx.jpg" alt="4_4.png" style="zoom:50%;" />
+<p>来看看现在的效果。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh266qkgaag30l40ct4qs.gif" alt="4_5.gif" style="zoom: 80%;" />
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh26a56ftcg30pq0e0npj.gif" alt="4_6.gif" style="zoom:80%;" />
+<p>可以看到效果很不错，很好的模拟出一层层风浪的效果。并且还可以自己制作风浪贴图，调整风速、控制风的形状以及方向等参数。</p>
+<p>接下来是第二个交互效果，玩家的交互。</p>
+<p>说是玩家的交互，本质上也是草的顶点的偏移。<strong>不同的就是玩家是世界空间下不停移动的人物，这就需要我们将玩家的位置传给着色器</strong>。</p>
+<p>我们创建一个 <em>MoveControl</em> 的脚本，挂载在一个默认的 <em>Capsule</em> 下。</p>
+<pre><code class="language-cs">public class MoveControl : MonoBehaviour
+{
+    public Material grassMaterial;
+    public float speed = 10f;
+
+    void Update()
+    {
+        grassMaterial.SetVector(&quot;_PlayerPos&quot;, this.gameObject.transform.position + Vector3.up * 0.5f);
+        MoveMent();
+    }
+
+    void MoveMent()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(transform.forward * Time.deltaTime * speed);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(-transform.forward * Time.deltaTime * speed);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(-transform.right * Time.deltaTime * speed);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(transform.right * Time.deltaTime * speed);
+        }
+    }
+}
+</code></pre>
+<p>代码很简单，只有一些简单的控制移动的代码。其中在 <strong><em>Update</em> 函数里面我们需要向我们的草材质传递我们 <em>Capsule</em> 的位置信息</strong>。</p>
+<p>来看一下着色器增加的部分。</p>
+<pre><code class="language-cs">Shader &quot;My Shaders/GrassShader&quot;
+{
+    Properties
+    {
+		......
+
+		_InteracRadius(&quot;InteracRadius&quot;, Range(0.5, 20)) = 1          //控制玩家与草交互的半径
+		_InteracStrength(&quot;InteracStrength&quot;, Range(0.5, 20)) = 1          //控制玩家与草交互的强度
+	}
+
+	SubShader
+	{
+		......
+
+		Pass
+		{
+			......
+
+			//玩家的位置
+			float4 _PlayerPos;
+			half _InteracRadius;
+			half _InteracStrength;
+
+			......
+			
+			//几何着色器
+			[maxvertexcount(30)]
+			void geom(point v2g points[1], inout TriangleStream&lt;g2f&gt; triStream) {
+				
+				......
+                    
+				//进行生成全部草顶点的循环
+				for (int i = 0; i &lt; vertexCount; i++)
+				{
+					......
+					//对顶点 Y 轴进行旋转
+					pos = mul(lastTransformMatrix, mul(rotateMatrix, mul(firstTransformMatrix, pos)));
+
+					//--交互
+					//--与玩家的交互
+					float3 worldPos = mul(unity_ObjectToWorld, pos).xyz;
+					//每根草的顶点与玩家的距离
+					float3 dis = distance(_PlayerPos, worldPos);
+					//将这段距离由进到远的范围缩小为 0~1
+					float3 circle = 1 - saturate(dis / _InteracRadius);
+					//每根草的顶点倒下的方向
+					float3 dir = normalize(worldPos - _PlayerPos);
+					float3 strength = dir * circle;
+					//XZ 轴上的移动
+					pos.xz += strength * _InteracStrength * uv.y;
+					//Y 轴上的移动
+					float2 InterOffsetXZ = strength * _InteracStrength * uv.y;
+					pos.y -= pos.y - sqrt(pos.y * pos.y - (InterOffsetXZ.x * InterOffsetXZ.x + InterOffsetXZ.y * InterOffsetXZ.y));
+					
+                    //风的交互
+					......
+
+					v[i] = GetVertex(pos, points[0].normal, uv);
+				}
+
+				......
+			}
+
+			......
+		}
+    }
+    
+	Fallback &quot;Diffuse&quot;
+}
+</code></pre>
+<p>在上一段风的交互代码前我们增加与玩家交互的代码，可以看到我们引入了由脚本传过来的玩家的世界坐标变量 <em>_PlayerPos</em>。<strong>首先将我们每根草的顶点转到世界空间下，并利用 <em>distance</em> 函数计算出每个顶点与玩家的距离。注意我们在开头还添加了两个变量 <em>_InteracRadius</em> 和 <em>_InteracStrength</em>，这两个变量分别控制玩家与草交互的范围与强度。接下来我们利用向量的知识得到每根草的顶点倒下来的方向，后面的顶点偏移就跟风的交互差不多了</strong>。</p>
+<p>让我们来看看效果。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh2dwhgzp5g30pq0e0x6v.gif" alt="4_7.gif" style="zoom: 50%;" />
+<p>可以看到 <em>Capsule</em> 经过的地方草的位置发生了偏移。但是这种方法想要达到好的效果需要调整的东西有很多，比如传入的 <em>_PlayerPos</em> 的位置就需要根据实际需求来进行调整。</p>
+<p>最后来讲一下静止物体的交互效果。</p>
+<p>说是静止物体，其实同样也适用于运动的物体。<strong>在游戏中通常都会看到这样的场景，比如一架飞船降落在大草原上，草原上通常会形成像水面涟漪一样一层层散开的效果</strong>。我查阅了网上的资料，发现了一个很好玩的<strong>制作水面涟漪的方法：粒子 + 纹理相机</strong>。我将这个方法移植到草着色器的风压效果中，同开头讲到的风的交互的方法差不多，<strong>通过建立 UV 坐标采样相机渲染的粒子纹理来对草的顶点进行偏移</strong>。</p>
+<p>这一步就不贴上代码了。<strong>具体设置的方法可以参考那一篇《Making Interactive Water using RenderTexture》的文章，我会贴在末尾的参考资料中</strong>。直接来看看效果。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh2f8g3sxmg30ob0cjnpi.gif" alt="4_8.gif" style="zoom: 67%;" />
+<p>可以看到周围的风压效果。想要更改参数也很简单，只要控制粒子生成的效果，就可以做到很多不同形式的风压效果。</p>
+<hr>
+<h2 id="后记">后记</h2>
+<p>至此，我们的《Unity大片草地渲染系列》已经基本完成了目标。</p>
+<p>整个项目中学到了很多新的东西和知识。当然，最后做出来的效果还有很多可以优化的地方。比如草的光照优化，Billboard 和阴影的添加等。等到日后有时间再继续补充吧。</p>
+<hr>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li>
+<p>Unity 大面积草风吹动效果+受人物影响</p>
+<p><a href="https://blog.csdn.net/qq_33967521/article/details/85205938">https://blog.csdn.net/qq_33967521/article/details/85205938</a></p>
+</li>
+<li>
+<p>Quick Game Art Tips - Interactive Grass Shader</p>
+<p><a href="https://www.patreon.com/posts/quick-game-art-19844414">https://www.patreon.com/posts/quick-game-art-19844414</a></p>
+</li>
+<li>
+<p>Making Interactive Water using RenderTexture</p>
+<p><a href="https://www.patreon.com/posts/24192529">https://www.patreon.com/posts/24192529</a></p>
+</li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://nicosq.github.io/post/unity-da-pian-cao-di-xuan-ran-3cao-zhao-se-qi/">
+                  <h3 class="post-title">
+                    Unity大片草地渲染3（草着色器）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

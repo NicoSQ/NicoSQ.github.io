@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595514432140">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595603423581">
 <link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://nicosq.github.io">
-        <img src="https://nicosq.github.io/images/avatar.png?v=1595514432140" class="site-logo">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1595603423581" class="site-logo">
         <h1 class="site-title">nicosq_Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -261,7 +261,7 @@
             }
 
             //添加每一个草的顶点位置到 grassVert 列表里
-            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, vertPos.z + randomZ));
         }
     }
 </code></pre>
@@ -297,12 +297,12 @@
             }
 
             //添加每一个草的顶点位置到 grassVert 列表里
-            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, vertPos.z + randomZ));
         }
 </code></pre>
 <p>其中前半段是利用 <em>Random.value</em> 得到两个草堆之间每个草的随机位置，同时为了防止草种出草地需要进行相应的约束。<strong>注意最后一句：</strong></p>
 <pre><code class="language-cs">			//添加每一个草的顶点位置到 grassVert 列表里
-            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, 								vertPos.z + randomZ));
+            grassVerts.Add(new Vector3(vertPos.x + randomX, perlinNoise[indexX, indexZ] * terrainHeight, vertPos.z + randomZ));
 </code></pre>
 <p>还记得我们前面创建的 <em>grassVerts</em> 列表吗？这个列表存储的是 <em>Vector3</em> 类型（即每根草的位置）。<strong>为了与地形契合，我们需要借助前面生成地形时使用的 <em>perlinNoise</em> 数组，这个数组存储地形每个网格顶点的高度值，我们用 <em>indexX</em> 和 <em>indexZ</em> 两个参数作为索引，得到每根草对应的高度值</strong>。</p>
 <p>得到下面的效果图，大片紫色是因为还没有赋予草材质，可以看到已经生成的大量的草的顶点。</p>
@@ -427,27 +427,27 @@
 <ul>
 <li>
 <p>【Unity Shader】使用Geometry Shader进行大片草地的实时渲染</p>
-<p>https://blog.csdn.net/weixin_44422550/article/details/105105351</p>
+<p><a href="https://blog.csdn.net/weixin_44422550/article/details/105105351">https://blog.csdn.net/weixin_44422550/article/details/105105351</a></p>
 </li>
 <li>
 <p>Unity 官方文档（Mesh.SetIndices）</p>
-<p>https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html</p>
+<p><a href="https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html">https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html</a></p>
 </li>
 <li>
 <p>Unity 官方文档（MeshTopology）</p>
-<p>https://docs.unity3d.com/ScriptReference/MeshTopology.html</p>
+<p><a href="https://docs.unity3d.com/ScriptReference/MeshTopology.html">https://docs.unity3d.com/ScriptReference/MeshTopology.html</a></p>
 </li>
 <li>
 <p>C# (CSharp) UnityEngine Mesh.SetIndices 示例</p>
-<p>https://csharp.hotexamples.com/zh/examples/UnityEngine/Mesh/SetIndices/php-mesh-setindices-method-examples.html</p>
+<p><a href="https://csharp.hotexamples.com/zh/examples/UnityEngine/Mesh/SetIndices/php-mesh-setindices-method-examples.html">https://csharp.hotexamples.com/zh/examples/UnityEngine/Mesh/SetIndices/php-mesh-setindices-method-examples.html</a></p>
 </li>
 <li>
 <p>Unity中Mesh和subMesh的区别</p>
-<p>https://blog.csdn.net/alexhu2010q/article/details/104935985</p>
+<p><a href="https://blog.csdn.net/alexhu2010q/article/details/104935985">https://blog.csdn.net/alexhu2010q/article/details/104935985</a></p>
 </li>
 <li>
 <p>Unity网格编程篇(二) 非常详细的Mesh编程入门文章</p>
-<p>https://blog.csdn.net/qq_29579137/article/details/77369734</p>
+<p><a href="https://blog.csdn.net/qq_29579137/article/details/77369734">https://blog.csdn.net/qq_29579137/article/details/77369734</a></p>
 </li>
 </ul>
 

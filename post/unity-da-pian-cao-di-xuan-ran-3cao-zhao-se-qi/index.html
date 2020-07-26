@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595604159235">
+<link rel="shortcut icon" href="https://nicosq.github.io/favicon.ico?v=1595777637127">
 <link rel="stylesheet" href="https://nicosq.github.io/styles/main.css">
 
 
@@ -20,7 +20,7 @@
 
     <meta name="description" content="前言
 在上篇文章中，我们生成了草的顶点集。在正式开始前，首先来补充上一篇文章留下的优化方案之一：草的法线生成——利用地形网格的法线来生成草的法线。思路其实很简单，就是创建一个 terrainNormals 的数组来存储地形网格每一个顶点的法..." />
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="Shader,Unity" />
   </head>
   <body>
     <div id="app" class="main">
@@ -29,7 +29,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://nicosq.github.io">
-        <img src="https://nicosq.github.io/images/avatar.png?v=1595604159235" class="site-logo">
+        <img src="https://nicosq.github.io/images/avatar.png?v=1595777637127" class="site-logo">
         <h1 class="site-title">nicosq_Blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -90,7 +90,7 @@
       分享我的所学
     </div>
     <div class="site-footer">
-      Developer Gamer OORer Mader  | <a class="rss" href="https://nicosq.github.io/atom.xml" target="_blank">RSS</a>
+      Gamer OORer Mader  | <a class="rss" href="https://nicosq.github.io/atom.xml" target="_blank">RSS</a>
     </div>
   </div>
 </div>
@@ -456,10 +456,10 @@
 				fixed fresnel = saturate(1 - dot(worldSpecNormal, worldViewDir));
 				//fresnel = clamp(fresnel - 0.2, 0, 1);
 				fresnel = pow(fresnel, _FresnelPower) * clamp(i.uv.y - 0.5, 0, i.uv.y);
-				fixed3 fresnelColor = fresnel * _FresnelColor;
+				fixed3 fresnelColor = fresnel * _FresnelColor * 2;
 
 				//得到并输出最终颜色
-				fixed3 finalColor = ambient + diffuse + specular;
+				fixed3 finalColor = ambient + diffuse + specular + FresnelColor;
 				return fixed4(texColor * _GrassColor.rgb * finalColor, alpha);
 				//return fixed4(worldNormal, alpha);
 			}
@@ -796,10 +796,10 @@ triangle v2g points[3]
 				fixed fresnel = saturate(1 - dot(worldSpecNormal, worldViewDir));
 				//fresnel = clamp(fresnel - 0.2, 0, 1);
 				fresnel = pow(fresnel, _FresnelPower) * clamp(i.uv.y - 0.5, 0, i.uv.y);
-				fixed3 fresnelColor = fresnel * _FresnelColor;
+				fixed3 fresnelColor = fresnel * _FresnelColor * 2;
 
 				//得到并输出最终颜色
-				fixed3 finalColor = ambient + diffuse + specular + fresnel;
+				fixed3 finalColor = ambient + diffuse + specular + fresnelColor;
 				return fixed4(texColor * _GrassColor.rgb * finalColor, alpha);
 				//return fixed4(worldNormal, alpha);
 			}
@@ -816,7 +816,7 @@ triangle v2g points[3]
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh13lxeb5hj30of0duwoh.jpg" alt="3_15.png" style="zoom:80%;" />
 </li>
 <li>
-<p>ambient + diffuse + specular + fresnel</p>
+<p>ambient + diffuse + specular + fresnelColor</p>
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh13on89svj30ok0dr7fa.jpg" alt="3_16.png" style="zoom:80%;" />
 </li>
 </ul>
@@ -849,6 +849,18 @@ triangle v2g points[3]
 </ul>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://nicosq.github.io/tag/mTsAitx0q/" class="tag">
+                    Shader
+                  </a>
+                
+                  <a href="https://nicosq.github.io/tag/SUjx7jSqs/" class="tag">
+                    Unity
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">

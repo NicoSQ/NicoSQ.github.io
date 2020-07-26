@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nicosq.github.io</id>
     <title>nicosq_Blog</title>
-    <updated>2020-07-24T15:22:44.433Z</updated>
+    <updated>2020-07-26T15:34:04.985Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nicosq.github.io"/>
     <link rel="self" href="https://nicosq.github.io/atom.xml"/>
@@ -10,6 +10,45 @@
     <logo>https://nicosq.github.io/images/avatar.png</logo>
     <icon>https://nicosq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, nicosq_Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Unity制作动画短片【西部决斗】]]></title>
+        <id>https://nicosq.github.io/post/unity-zhi-zuo-dong-hua-duan-pian-xi-bu-jue-dou/</id>
+        <link href="https://nicosq.github.io/post/unity-zhi-zuo-dong-hua-duan-pian-xi-bu-jue-dou/">
+        </link>
+        <updated>2020-07-26T13:59:27.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="故事脚本">故事脚本</h2>
+<p>在一个荒凉的西部小镇里，“赛亚人王子”贝吉塔刚刚来到这里，却发现这里渺无人烟，只得漫天的沙尘在这里肆虐。贝吉塔一直向前走，一个人也没看到，一个公告栏却映入他的眼帘。让人意想不到的就是，原来公告栏上挂着的，居然是贝吉塔的悬赏通缉令！贝吉塔一惊，随即提高了警惕。<br>
+一阵脚步声想起，在这荒漠小镇中居然还有人？贝吉塔心想，猛地回头一看，正是著名的赏金猎人——空条承太郎向他走来。空条承太郎的来意，正是为了赏单上的那一笔巨款。一场对决无可避免。<br>
+经历了拳拳到肉的对决后，贝吉塔在丝血一刻一套连招将承太郎打趴下，并放出了他的光波，将地上的承太郎炸成灰烬。<br>
+正当贝吉塔沾沾自喜的时候，一声“白金之星 THE WORLD”这一声正正就是承太郎的时间暂停技能的声音，预示着承太郎并没有被炸飞，留下结局悬念。</p>
+<hr>
+<h2 id="制作过程">制作过程</h2>
+<p><strong>3D max里面进行角色动作k帧（模型素材均来自网上）</strong></p>
+<p>在3d max里面，我们对两个角色模型进行动作设计以及实现，让他能够实现自然的动作和姿态，最后形成一整段流畅的打斗部分以及其他场景。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pcekk1yj30km05zmy0.jpg" alt="1_1.png"  />
+<figure data-type="image" tabindex="1"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pcv0qo7j30k906uju8.jpg" alt="1_2.png" loading="lazy"></figure>
+<p><strong>Unity进行场景设计与渲染</strong></p>
+<p>为了营造出西部的感觉，我们寻找了一个荒漠的乡村从场景，并且为了加强这种荒漠荒凉的气氛，我们在Unity里面利用粒子模块进行了风沙，云层，烟雾以及火光等效果的添加，并改变了灯光渲染效果。让整个场景看起来更加有西部的味道，烘托出故事的背景。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pfb6v81j30lw0g4tin.jpg" alt="1_3.png" style="zoom:80%;" />
+<p><strong>利用 Timeline 和 Cinemachine 插件进行人物动作编排和运动镜头添加</strong></p>
+<p>我们构思了镜头和脚本，并制作出了所需要用到的动作。利用 3D max 里面导出来的动作FBX文件，导入到 Unity Timeline 里进行动作的编排与摄像机布置与运动，以达到我们想要的效果。</p>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pi2k39jj30le0c3n74.jpg" alt="1_4.png"  />
+<figure data-type="image" tabindex="2"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pjz14iyj30l305rq7e.jpg" alt="1_6.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pitq1mej30li07qjss.jpg" alt="1_5.png" loading="lazy"></figure>
+<ul>
+<li><strong>利用 AE 合成特效，PR 剪辑导出视频</strong></li>
+</ul>
+<p>利用Unity渲染出来的视频已经具有丰富的场景效果（风沙、灯光、烟雾、火光等），在 AE 中我们添加特效丰富打击感与速度感，界面效果以及其他一切特效元素。</p>
+<figure data-type="image" tabindex="4"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4plkg86jj30i809xmzz.jpg" alt="1_7.png" loading="lazy"></figure>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pm6w8dmj30l90bkag5.jpg" alt="1_8.png"  />
+<figure data-type="image" tabindex="5"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh4pmji6orj30j30agq59.jpg" alt="1_9.png" loading="lazy"></figure>
+<hr>
+<h2 id="视频展示">视频展示</h2>
+<div style="position: relative; padding: 30% 45%;">
+<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="//player.bilibili.com/player.html?aid=86952767&bvid=BV1t7411H7zq&cid=148580318&page=1&high_quality=1&danmaku=0" frameborder="no" scrolling="no"></iframe>
+</div>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Unity大片草地渲染4（草的交互）]]></title>
         <id>https://nicosq.github.io/post/unity-da-pian-cao-di-xuan-ran-4cao-de-jiao-hu/</id>
@@ -644,10 +683,10 @@ pos.y -= yOffset * _WindYStrength * clamp(uv.y - 0.35, 0, 1);
 				fixed fresnel = saturate(1 - dot(worldSpecNormal, worldViewDir));
 				//fresnel = clamp(fresnel - 0.2, 0, 1);
 				fresnel = pow(fresnel, _FresnelPower) * clamp(i.uv.y - 0.5, 0, i.uv.y);
-				fixed3 fresnelColor = fresnel * _FresnelColor;
+				fixed3 fresnelColor = fresnel * _FresnelColor * 2;
 
 				//得到并输出最终颜色
-				fixed3 finalColor = ambient + diffuse + specular;
+				fixed3 finalColor = ambient + diffuse + specular + FresnelColor;
 				return fixed4(texColor * _GrassColor.rgb * finalColor, alpha);
 				//return fixed4(worldNormal, alpha);
 			}
@@ -984,10 +1023,10 @@ triangle v2g points[3]
 				fixed fresnel = saturate(1 - dot(worldSpecNormal, worldViewDir));
 				//fresnel = clamp(fresnel - 0.2, 0, 1);
 				fresnel = pow(fresnel, _FresnelPower) * clamp(i.uv.y - 0.5, 0, i.uv.y);
-				fixed3 fresnelColor = fresnel * _FresnelColor;
+				fixed3 fresnelColor = fresnel * _FresnelColor * 2;
 
 				//得到并输出最终颜色
-				fixed3 finalColor = ambient + diffuse + specular + fresnel;
+				fixed3 finalColor = ambient + diffuse + specular + fresnelColor;
 				return fixed4(texColor * _GrassColor.rgb * finalColor, alpha);
 				//return fixed4(worldNormal, alpha);
 			}
@@ -1004,7 +1043,7 @@ triangle v2g points[3]
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh13lxeb5hj30of0duwoh.jpg" alt="3_15.png" style="zoom:80%;" />
 </li>
 <li>
-<p>ambient + diffuse + specular + fresnel</p>
+<p>ambient + diffuse + specular + fresnelColor</p>
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh13on89svj30ok0dr7fa.jpg" alt="3_16.png" style="zoom:80%;" />
 </li>
 </ul>

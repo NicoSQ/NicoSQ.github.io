@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nicosq.github.io</id>
     <title>nicosq_Blog</title>
-    <updated>2020-07-27T02:45:50.298Z</updated>
+    <updated>2020-07-27T02:49:55.008Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nicosq.github.io"/>
     <link rel="self" href="https://nicosq.github.io/atom.xml"/>
@@ -41,7 +41,7 @@
 <p>第一种是基于是视觉映射原理实现云层效果。</p>
 <p>在计算机图形学中视差映射是法线映射的一个增强版本，它不止改变了光照的作用方式，还在平坦的多边形上创建了3D细节的假象。不会生成任何额外的图元。<strong>事实上，这个方法只偏移了用来获取颜色和高度值的纹理坐标</strong>。</p>
 <p>要实现视差映射<strong>通常需要一张高度贴图</strong>。高度图中的每个像素包含了表面高度的信息。纹理中的高度会被转化成对应的点沉入表面多少的信息。这种情况你得把高度图中读出来的值反过来用。通常视差映射会把高度图中的值当深度来用，<strong>黑色(0)代表和表面齐平的高度，白色(1)代表最深的凹陷值</strong>。</p>
-<p><strong>所有的视觉映射计算都是在切空间进行的</strong>。想要实现偏移纹理坐标也很简单，<strong>我们首先得到切空间下的是叫视角方向（向量 V），因为切空间是沿着纹理坐标方向建立的，所以向量 V 的 X 和 Y 分量就可以直接不加换算的用作纹理坐标的偏移量</strong>。</p>
+<p><strong>所有的视觉映射计算都是在切空间进行的</strong>。想要实现偏移纹理坐标也很简单，<strong>我们首先得到切空间下的视角方向（向量 V），因为切空间是沿着纹理坐标方向建立的，所以向量 V 的 X 和 Y 分量就可以直接不加换算的用作纹理坐标的偏移量</strong>。</p>
 <p>下面是切线空间（TBN）下的示意图。</p>
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh46togsvrj30ir0hy0tc.jpg" alt="1_1.png" style="zoom:50%;" />
 <p>但是通常由普通的偏移得到的效果都不是很好，而视觉映射也有很多改进版本，视差遮蔽映射( POM )就是其中一个。<strong>本质上还是纹理坐标的偏移，但是通过插值采样的方法来得到更加准确的结果</strong>。</p>

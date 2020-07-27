@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nicosq.github.io</id>
     <title>nicosq_Blog</title>
-    <updated>2020-07-27T03:26:20.606Z</updated>
+    <updated>2020-07-27T08:42:21.780Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nicosq.github.io"/>
     <link rel="self" href="https://nicosq.github.io/atom.xml"/>
@@ -10,6 +10,43 @@
     <logo>https://nicosq.github.io/images/avatar.png</logo>
     <icon>https://nicosq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, nicosq_Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[个人建模渲染练习【1】]]></title>
+        <id>https://nicosq.github.io/post/ge-ren-jian-mo-xuan-ran-lian-xi-ji-lu-1/</id>
+        <link href="https://nicosq.github.io/post/ge-ren-jian-mo-xuan-ran-lian-xi-ji-lu-1/">
+        </link>
+        <updated>2020-07-27T08:34:46.000Z</updated>
+        <content type="html"><![CDATA[<p>最近正在学习Blender，整理一下以前的一些建模和渲染练习（部分模型素材来自网上）。</p>
+<p>使用软件：Maya Blender</p>
+<hr>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5lrlj6odj30zk0k0q5e.jpg" alt="Maya麦当劳1.jpg"  />
+<blockquote>
+<p><strong>《麦当劳》 Maya</strong></p>
+</blockquote>
+<img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5luksetbj31hc0u07bn.jpg" alt="Maya挖掘机2.jpg"  />
+<figure data-type="image" tabindex="1"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5lv9c7u0j31hc0u0tez.jpg" alt="Maya挖掘机1.jpg" loading="lazy"></figure>
+<blockquote>
+<p><strong>《挖掘机》 Maya</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5lw1pwc6j30zk0k0n1z.jpg" alt="Maya卧室1.jpg" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5lwct1ipj30zk0k00xg.jpg" alt="Maya卧室2.jpg" loading="lazy"></figure>
+<blockquote>
+<p><strong>《卧室》 Maya</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="4"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5m0x4siaj31hc0u01ky.jpg" alt="Blender笔筒渲染.png" loading="lazy"></figure>
+<blockquote>
+<p><strong>《笔筒》 Blender(Eevee渲染)</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="5"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5m3ti4hkj31hc0u07wh.jpg" alt="Blender水槽渲染.png" loading="lazy"></figure>
+<blockquote>
+<p><strong>《水槽》 Blender(Eevee渲染)</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="6"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5m4scni9j31hc0u0e82.jpg" alt="Blender石中剑渲染.png" loading="lazy"></figure>
+<blockquote>
+<p><strong>《石中剑》 Blender(Eevee渲染)</strong></p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Unity大片草地渲染5（Demo展示）]]></title>
         <id>https://nicosq.github.io/post/unity-da-pian-cao-di-xuan-ran-5demo-zhan-shi/</id>

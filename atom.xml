@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nicosq.github.io</id>
     <title>nicosq_Blog</title>
-    <updated>2020-07-27T08:43:31.553Z</updated>
+    <updated>2020-07-27T09:11:38.755Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nicosq.github.io"/>
     <link rel="self" href="https://nicosq.github.io/atom.xml"/>
@@ -17,7 +17,7 @@
         </link>
         <updated>2020-07-27T08:34:46.000Z</updated>
         <content type="html"><![CDATA[<p>最近正在学习Blender，整理一下以前的一些建模和渲染练习（部分模型素材来自网上）。</p>
-<p>使用软件：Maya Blender</p>
+<p>使用软件：Maya / Blender / C4D</p>
 <hr>
 <img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5lrlj6odj30zk0k0q5e.jpg" alt="Maya麦当劳1.jpg"  />
 <blockquote>
@@ -44,6 +44,14 @@
 <figure data-type="image" tabindex="6"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5m4scni9j31hc0u0e82.jpg" alt="Blender石中剑渲染.png" loading="lazy"></figure>
 <blockquote>
 <p><strong>《石中剑》 Blender(Eevee渲染)</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="7"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5n0wroshj31630nnh1a.jpg" alt="C4D小球运动渲染.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5n19wxhzj31630nk1ax.jpg" alt="C4D小球运动渲染1.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="http://ww1.sinaimg.cn/large/0073Nbi8gy1gh5n1gldybj31630nj172.jpg" alt="C4D小球运动渲染2.png" loading="lazy"></figure>
+<blockquote>
+<p><strong>《C4D小球运动》 C4D(Octane渲染)</strong></p>
+<p><strong>链接：<a href="https://pan.baidu.com/s/10Tqb7_cHTrqhLrbvKAAeKA">https://pan.baidu.com/s/10Tqb7_cHTrqhLrbvKAAeKA</a></strong><br>
+<strong>提取码：mzrp</strong></p>
 </blockquote>
 ]]></content>
     </entry>

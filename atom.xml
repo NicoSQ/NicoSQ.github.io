@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://nicosq.github.io</id>
     <title>nicosq_Blog</title>
-    <updated>2020-07-28T03:04:36.125Z</updated>
+    <updated>2020-08-02T03:08:27.697Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://nicosq.github.io"/>
     <link rel="self" href="https://nicosq.github.io/atom.xml"/>
@@ -10,6 +10,27 @@
     <logo>https://nicosq.github.io/images/avatar.png</logo>
     <icon>https://nicosq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, nicosq_Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Unity第三人称控制器Demo【TPS】]]></title>
+        <id>https://nicosq.github.io/post/unity-di-san-ren-cheng-kong-zhi-qi-demotps/</id>
+        <link href="https://nicosq.github.io/post/unity-di-san-ren-cheng-kong-zhi-qi-demotps/">
+        </link>
+        <updated>2020-08-02T03:06:16.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>最近完善了一下之前做的两个手柄的人物控制器，加了个简单的场景测试。视频中的按键响应全部为接入的手柄操作。</p>
+<p>视频大致分为四大段：<br>
+0:00 - 1:28 : 角色位移<br>
+1:29 - 2:46 : 角色攻击<br>
+2:47 - 3:42 : 摄像机穿墙问题解决<br>
+3:43 - 5:07 : 场景测试</p>
+<p>模型动作素材全部来自网上。本来一开始是是打算做承太郎的替身，结果替身模型太难找了，只好用布洛妮娅来代替了（捂脸）。</p>
+<hr>
+<h2 id="展示">展示</h2>
+<div style="position: relative; padding: 30% 45%;">
+<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="//player.bilibili.com/player.html?aid=926553439&bvid=BV1rT4y1j7mr&cid=219395168&page=1&high_quality=1&danmaku=0" frameborder="no" scrolling="no"></iframe>
+</div>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Unity开发 / 文字冒险游戏】配餐车物语全流程演示]]></title>
         <id>https://nicosq.github.io/post/unity-kai-fa-wen-zi-mou-xian-you-xi-pei-can-che-wu-yu-quan-liu-cheng-yan-shi/</id>
